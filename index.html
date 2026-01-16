@@ -168,67 +168,6 @@
             color: rgba(255, 255, 255, .95);
         }
 
-        .gate {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, .14);
-            background: rgba(0, 0, 0, .16);
-            margin-top: 10px;
-        }
-
-        .gate .left {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-        }
-
-        .gate .left strong {
-            font-size: 13px
-        }
-
-        .gate .left span {
-            font-size: 12px;
-            color: var(--muted)
-        }
-
-        .switch {
-            position: relative;
-            width: 64px;
-            height: 34px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, .10);
-            border: 1px solid rgba(255, 255, 255, .16);
-            box-shadow: inset 0 8px 18px rgba(0, 0, 0, .35);
-            cursor: pointer;
-            flex: 0 0 auto;
-        }
-
-        .switch input {
-            display: none
-        }
-
-        .knob {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 26px;
-            height: 26px;
-            border-radius: 999px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .70));
-            box-shadow: 0 10px 18px rgba(0, 0, 0, .40);
-            transition: transform .25s ease, background .25s ease;
-        }
-
-        .switch input:checked+.knob {
-            transform: translateX(30px);
-            background: linear-gradient(180deg, rgba(255, 154, 42, .95), rgba(255, 122, 0, .82));
-        }
-
         .wheelWrap {
             display: flex;
             align-items: center;
@@ -349,7 +288,7 @@
             color: #041328;
             font-weight: 1000;
             letter-spacing: .7px;
-            font-size: 14px;
+            font-size: 15px;
             background:
                 radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .98), rgba(255, 255, 255, .62));
             box-shadow:
@@ -366,9 +305,66 @@
             transform: scale(.98);
         }
 
+        .startBtn.isReady {
+            animation: readyPulse 1.25s ease-in-out infinite;
+            box-shadow:
+                inset 0 10px 18px rgba(255, 255, 255, .60),
+                inset 0 -12px 18px rgba(0, 0, 0, .16),
+                0 0 0 2px rgba(255, 154, 42, .25),
+                0 0 45px rgba(255, 122, 0, .45),
+                0 24px 60px rgba(0, 0, 0, .68);
+        }
+
+        .startBtn.isReady::after {
+            content: "";
+            position: absolute;
+            inset: -60%;
+            background: radial-gradient(circle, rgba(255, 122, 0, .22), transparent 55%);
+            animation: readyGlow 1.25s ease-in-out infinite;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes readyPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: saturate(1);
+            }
+
+            50% {
+                transform: scale(1.035);
+                filter: saturate(1.15);
+            }
+        }
+
+        @keyframes readyGlow {
+
+            0%,
+            100% {
+                transform: scale(.92);
+                opacity: .55;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
         .startBtn[disabled] {
             cursor: not-allowed;
-            filter: grayscale(.2) opacity(.7);
+            filter: grayscale(.25) opacity(.62);
+            animation: none !important;
+            box-shadow:
+                inset 0 10px 18px rgba(255, 255, 255, .45),
+                inset 0 -12px 18px rgba(0, 0, 0, .20),
+                0 24px 60px rgba(0, 0, 0, .62);
+        }
+
+        .startBtn[disabled]::after {
+            display: none;
         }
 
         .startInner {
@@ -382,8 +378,8 @@
         }
 
         .startInner img {
-            width: 46px;
-            height: 46px;
+            width: 50px;
+            height: 50px;
             border-radius: 14px;
             object-fit: cover;
             box-shadow: 0 10px 20px rgba(0, 0, 0, .35);
@@ -399,6 +395,7 @@
             z-index: 1;
             pointer-events: none;
             mix-blend-mode: screen;
+            opacity: .75;
         }
 
         @keyframes pulse {
@@ -406,7 +403,7 @@
             0%,
             100% {
                 transform: scale(.85);
-                opacity: .65;
+                opacity: .55;
             }
 
             50% {
@@ -609,13 +606,6 @@
             }
         }
 
-        .footerNote {
-            text-align: center;
-            font-size: 12px;
-            color: rgba(238, 246, 255, .70);
-            margin: 0;
-        }
-
         .grandGlow {
             display: inline-flex;
             align-items: center;
@@ -659,13 +649,13 @@
         }
 
         @media (max-width:380px) {
-            .badge {
-                display: none;
-            }
-
             .brand img {
                 width: 40px;
                 height: 40px;
+            }
+
+            .badge {
+                display: none;
             }
         }
     </style>
@@ -675,32 +665,17 @@
     <div class="app">
         <div class="topbar">
             <div class="brand">
-                <img src="logo-castelao.png" alt="Logo Mercado Castelão" onerror="this.style.display='none'">
+                <img src="img/logo.png" alt="Logo Mercado Castelão" onerror="this.style.display='none'">
                 <div class="t">
                     <strong>Roleta Premiada — Mercado Castelão</strong>
-                    <span>Seguiu no Instagram? Girou!</span>
+                    <span>Boa sorte!</span>
                 </div>
             </div>
             <div class="badge">1 giro por cliente</div>
         </div>
 
         <div class="card">
-            <p class="hint">
-                Marque se o cliente segue a página para liberar o <b>START</b>.
-                O <b>GRANDE PRÊMIO R$200</b> é o mais difícil de sair.
-            </p>
-
-            <div class="gate">
-                <div class="left">
-                    <strong>Cliente segue o Instagram do Castelão?</strong>
-                    <span>Habilita o botão START</span>
-                </div>
-
-                <label class="switch">
-                    <input id="followCheck" type="checkbox" />
-                    <span class="knob"></span>
-                </label>
-            </div>
+            <p class="hint">Toque em <b>START</b> para girar.</p>
 
             <div class="wheelWrap">
                 <div class="wheelStage">
@@ -709,7 +684,7 @@
                     <div class="rim" aria-hidden="true"></div>
 
                     <div class="center">
-                        <button id="startBtn" class="startBtn" disabled>
+                        <button id="startBtn" class="startBtn isReady">
                             <span class="pulse" aria-hidden="true"></span>
                             <span class="startInner">
                                 <img src="img/logo.png" alt="Castelão" onerror="this.style.display='none'">
@@ -725,8 +700,6 @@
                 <button class="btn" id="testSpinBtn" type="button">Giro de teste</button>
             </div>
         </div>
-
-        <p class="footerNote">Dica: use em tela cheia para ficar bem chamativo.</p>
     </div>
 
     <div class="confetti" id="confetti"></div>
@@ -755,15 +728,14 @@
             { label: "CAFÉ DA MANHÃ", weight: 22, tone: "win" },
             { label: "DESCONTO DE 5%", weight: 22, tone: "win" },
             { label: "1 KG DE HORTIFRUTI", weight: 20, tone: "win" },
-            { label: "GRANDE PRÊMIO R$200", weight: 3, tone: "grand" },
-            { label: "VALE COMPRAS DE 100", weight: 10, tone: "win" },
-            { label: "NÃO FOI DESSA VEZ", weight: 23, tone: "lose" },
+            { label: "GRANDE PRÊMIO R$200", weight: 1.5, tone: "grand" },
+            { label: "VALE COMPRAS DE 100", weight: 11, tone: "win" },
+            { label: "NÃO FOI DESSA VEZ", weight: 23.5, tone: "lose" },
         ];
 
         const canvas = document.getElementById("wheel");
         const ctx = canvas.getContext("2d");
 
-        const followCheck = document.getElementById("followCheck");
         const startBtn = document.getElementById("startBtn");
         const resetBtn = document.getElementById("resetBtn");
         const testSpinBtn = document.getElementById("testSpinBtn");
@@ -794,6 +766,11 @@
             ["#ff7a00", "#07162d"],
             ["#eef6ff", "#b9d6ff"],
         ];
+
+        function setStartReady(isReady) {
+            startBtn.classList.toggle("isReady", !!isReady);
+            startBtn.disabled = !isReady;
+        }
 
         function roundRect(ctx, x, y, w, h, r) {
             const rr = Math.min(r, w / 2, h / 2);
@@ -841,7 +818,7 @@
             const t = text.toUpperCase();
             let size = baseSize;
             ctx.font = `1000 ${size}px system-ui`;
-            while (ctx.measureText(t).width > maxWidth && size > 16) {
+            while (ctx.measureText(t).width > maxWidth && size > 18) {
                 size -= 1;
                 ctx.font = `1000 ${size}px system-ui`;
             }
@@ -849,23 +826,20 @@
                 ctx.fillText(t, x, y);
                 return;
             }
-            let s = Math.min(size, 22);
+            let s = Math.min(size, 26);
             ctx.font = `1000 ${s}px system-ui`;
             const { line1, line2 } = splitTwoLines(ctx, t, maxWidth);
-            const lh = Math.max(20, Math.round(s * 0.92));
             if (!line2) {
                 ctx.fillText(t, x, y);
                 return;
             }
-            while (ctx.measureText(line1).width > maxWidth && s > 14) {
-                s -= 1;
-                ctx.font = `1000 ${s}px system-ui`;
+            while (ctx.measureText(line1).width > maxWidth && s > 16) {
+                s -= 1; ctx.font = `1000 ${s}px system-ui`;
             }
-            while (ctx.measureText(line2).width > maxWidth && s > 14) {
-                s -= 1;
-                ctx.font = `1000 ${s}px system-ui`;
+            while (ctx.measureText(line2).width > maxWidth && s > 16) {
+                s -= 1; ctx.font = `1000 ${s}px system-ui`;
             }
-            const lh2 = Math.max(18, Math.round(s * 0.92));
+            const lh2 = Math.max(20, Math.round(s * 0.92));
             ctx.fillText(line1, x, y - lh2 / 2);
             ctx.fillText(line2, x, y + lh2 / 2);
         }
@@ -970,8 +944,9 @@
 
                 const text = prize.label.toUpperCase();
                 const isGrand = prize.tone === "grand";
-                const maxWidth = 260;
-                const baseFont = isGrand ? 28 : 25;
+                const maxWidth = 290;
+
+                const baseFont = isGrand ? 32 : 30;
 
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
@@ -981,14 +956,14 @@
 
                 if (isGrand) {
                     ctx.fillStyle = "rgba(0,0,0,.30)";
-                    roundRect(ctx, -170, -36, 340, 72, 18);
+                    roundRect(ctx, -180, -38, 360, 76, 18);
                     ctx.fill();
                     ctx.strokeStyle = `rgba(255,223,122, ${0.55 + 0.35 * glowPulse})`;
                     ctx.lineWidth = 3;
                     ctx.stroke();
                 } else {
                     ctx.fillStyle = "rgba(0,0,0,.18)";
-                    roundRect(ctx, -170, -34, 340, 68, 18);
+                    roundRect(ctx, -180, -36, 360, 72, 18);
                     ctx.fill();
                 }
 
@@ -998,8 +973,8 @@
                 if (isGrand) {
                     ctx.shadowBlur = 0;
                     ctx.fillStyle = `rgba(255,223,122, ${0.60 + 0.35 * glowPulse})`;
-                    drawStar(ctx, -152, -42, 5, 9 + 3 * glowPulse, 4);
-                    drawStar(ctx, 152, 42, 5, 9 + 3 * glowPulse, 4);
+                    drawStar(ctx, -160, -44, 5, 10 + 3 * glowPulse, 4.5);
+                    drawStar(ctx, 160, 44, 5, 10 + 3 * glowPulse, 4.5);
                 }
 
                 ctx.restore();
@@ -1045,6 +1020,7 @@
             if (locked && !force) return;
 
             spinning = true;
+            setStartReady(false);
 
             const index = pickPrizeIndex();
             const slice = (Math.PI * 2) / N;
@@ -1097,7 +1073,7 @@
                 prizeBadge.innerHTML = '🏆 <span class="grandGlow">GRANDE PRÊMIO!</span>';
                 prizeSub.textContent = "Valide o prêmio com a equipe responsável.";
                 shineBox.classList.add("shake");
-                burstConfetti(150);
+                burstConfetti(160);
             } else if (isLose) {
                 prizeBadge.textContent = "😅 Ops!";
                 prizeSub.textContent = "Não foi dessa vez… mas já valeu a diversão!";
@@ -1105,7 +1081,7 @@
             } else {
                 prizeBadge.textContent = "🎉 Parabéns!";
                 prizeSub.textContent = "Mostre ao atendente para validar o prêmio.";
-                burstConfetti(85);
+                burstConfetti(90);
             }
 
             overlay.classList.add("show");
@@ -1152,20 +1128,14 @@
             requestAnimationFrame(idleLoop);
         }
 
-        followCheck.addEventListener("change", () => {
-            startBtn.disabled = !followCheck.checked || locked;
-        });
-
         startBtn.addEventListener("click", () => {
-            if (startBtn.disabled) return;
+            if (spinning || locked) return;
             spin({ force: false });
-            startBtn.disabled = true;
         });
 
         resetBtn.addEventListener("click", () => {
             locked = false;
-            followCheck.checked = false;
-            startBtn.disabled = true;
+            setStartReady(true);
             currentRotation = currentRotation % (Math.PI * 2);
             if (navigator.vibrate) navigator.vibrate([20, 40, 20]);
         });
@@ -1176,6 +1146,7 @@
         okBtn.addEventListener("click", hideResult);
         overlay.addEventListener("click", (e) => { if (e.target === overlay) hideResult(); });
 
+        setStartReady(true);
         requestAnimationFrame(idleLoop);
     </script>
 </body>
